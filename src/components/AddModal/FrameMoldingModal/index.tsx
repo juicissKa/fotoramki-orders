@@ -21,12 +21,7 @@ export type PassepartoutString = {
   code: string;
 };
 
-const workName = "Оформление в багет";
-
 const FrameMoldingModal: React.FC = () => {
-  const [glass, setGlass] = useState("");
-  const [back, setBack] = useState("");
-
   const [isLoaded, setIsLoaded] = useState(true);
 
   const onSubmit = (values: any) => {
@@ -37,6 +32,7 @@ const FrameMoldingModal: React.FC = () => {
     <Form
       onSubmit={onSubmit}
       subscription={{ submitting: true }}
+      initialValues={{ orderType: "Багет" }}
       mutators={{ ...arrayMutators }}
       render={({ handleSubmit, form: { mutators }, values }) => (
         <form onSubmit={handleSubmit}>

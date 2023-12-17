@@ -32,13 +32,21 @@ const AddPassepartout: React.FC<AddPassepartoutType> = ({
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={6}>
-          <TextField name={`${name}.width`} label="Расстояние по горизонтали" />
+          <TextField
+            name={`${name}.width`}
+            label="Расстояние по горизонтали"
+            required
+          />
         </Grid>
         <Grid item xs={6}>
-          <TextField name={`${name}.height`} label="Расстояние по вертикали" />
+          <TextField
+            name={`${name}.height`}
+            label="Расстояние по вертикали"
+            required
+          />
         </Grid>
         <Grid item xs={6}>
-          <TextField name={`${name}.price`} label="Цена паспарту" />
+          <TextField name={`${name}.price`} label="Цена паспарту" required />
         </Grid>
         <Grid item xs={6}>
           <TextField name={`${name}.code`} label="Артикул паспарту" required />
