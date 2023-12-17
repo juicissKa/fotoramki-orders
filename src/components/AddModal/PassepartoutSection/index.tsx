@@ -1,36 +1,27 @@
 import { Button, Grid } from "@mui/material";
-import React from "react";
-import { useAppDispatch, useAppSelector } from "../../../redux/store";
+import React, { useState } from "react";
 import AddPassepartout from "./AddPassepartout";
-import { addPassepartout } from "../../../redux/slices/orderSlice";
+import { FieldArray } from "react-final-form-arrays";
+import { push } from "final-form-arrays";
 
-const PassepartoutSection = () => {
-  const dispatch = useAppDispatch();
-  const passepartouts = useAppSelector((state) => state.order.passepartouts);
-
+const PassepartoutSection: React.FC<{ mutators: any }> = ({ mutators }) => {
   return (
-    <>
-      <Grid item xs={12}>
-        {passepartouts?.map((passepartout, index) => (
-          <AddPassepartout
-            key={`${passepartout.code}${index}`}
-            {...{
-              index,
-            }}
-          />
-        ))}
-      </Grid>
-      <Grid item xs={12}>
-        <Button
-          sx={{ width: "100%" }}
-          onClick={() => {
-            dispatch(addPassepartout());
-          }}
-        >
-          Добавить паспарту
-        </Button>
-      </Grid>
-    </>
+    <Grid item xs={12}>
+      <FieldArray name="passepartouts">
+        {({ fields }) =>
+          fields.map((name, index) => (
+            <AddPassepartout {...{ name, index, remove: mutators.remove }} />
+          ))
+        }
+      </FieldArray>
+
+      <Button
+        sx={{ width: "100%" }}
+        onClick={() => mutators.push("passepartouts", undefined)}
+      >
+        Добавить паспарту
+      </Button>
+    </Grid>
   );
 };
 

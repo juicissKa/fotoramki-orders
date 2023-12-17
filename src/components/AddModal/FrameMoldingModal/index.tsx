@@ -1,33 +1,18 @@
-import {
-  Button,
-  FormControl,
-  Grid,
-  InputAdornment,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import React, { createContext, useEffect, useRef, useState } from "react";
 import { handleNumberChange } from "../../../utils/handleNumberChange";
 import { handleTextChange } from "../../../utils/handleTextChange";
 import AddPassepartout from "../PassepartoutSection/AddPassepartout";
 import { handleSelectChange } from "../../../utils/handleSelectChange";
 import axios from "axios";
-import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { Accessory } from "../../types";
-import {
-  addPassepartout,
-  orderSelector,
-  setBase,
-  setCode,
-  setHeight,
-  setName,
-  setPrice,
-  setWidth,
-} from "../../../redux/slices/orderSlice";
 import NumberInput from "../NumberInput";
 import PassepartoutSection from "../PassepartoutSection";
+import { Button, Grid, MenuItem } from "@mui/material";
+import { Select, TextField } from "mui-rff";
+import arrayMutators from "final-form-arrays";
+
+import select_data from "../../../json/select_data.json";
+import { Form } from "react-final-form";
 
 export type PassepartoutString = {
   horizontalWidth: string;
@@ -42,99 +27,97 @@ const FrameMoldingModal: React.FC = () => {
   const [glass, setGlass] = useState("");
   const [back, setBack] = useState("");
 
-  const nameRef = useRef();
-  const widthRef = useRef();
-  const heightRef = useRef();
-  const baseRef = useRef();
-  const priceRef = useRef();
-  const codeRef = useRef();
+  const [isLoaded, setIsLoaded] = useState(true);
 
-  const [glassList, setGlassList] = useState<Accessory[]>([]);
-  const [backList, setBackList] = useState<Accessory[]>([]);
-
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await axios
-        .get("http://localhost:3001/accessories/?type=задник")
-        .then((response) => {
-          setBackList(response.data);
-        });
-      await axios
-        .get("http://localhost:3001/accessories/?type=стекло")
-        .then((response) => {
-          setGlassList(response.data);
-        });
-
-      setIsLoaded(true);
-    };
-
-    fetchData();
-  }, []);
+  const onSubmit = (values: any) => {
+    console.log(values);
+  };
 
   return isLoaded ? (
-    <Grid
-      container
-      spacing={2}
-      sx={{
-        "& .MuiGrid-item": { "& .MuiTextField-root": { width: "100%" } },
-      }}
-    >
-      <Grid item xs={6}>
-        <TextField label="Название работы" inputRef={nameRef} required />
-      </Grid>
-
-      <Grid item xs={6}>
-        <NumberInput label="Ширина" adornment="мм" inputRef={widthRef} />
-      </Grid>
-      <Grid item xs={6}>
-        <NumberInput label="Длина" adornment="мм" inputRef={heightRef} />
-      </Grid>
-      <Grid item xs={6}>
-        <NumberInput label="Ширина багета" adornment="мм" inputRef={baseRef} />
-      </Grid>
-      <Grid item xs={6}>
-        <NumberInput label="Цена багета" adornment="руб" inputRef={priceRef} />
-      </Grid>
-      <Grid item xs={6}>
-        <TextField label="Артикул багета" inputRef={codeRef} required />
-      </Grid>
-      <PassepartoutSection></PassepartoutSection>
-
-      <Grid item xs={6}>
-        <FormControl sx={{ width: "100%" }}>
-          <InputLabel id="glass-label">Стекло</InputLabel>
-          <Select
-            label={"Стекло"}
-            labelId={"glass-label"}
-            value={glass}
-            onChange={(e) => handleSelectChange(e, setGlass)}
-            sx={{ width: "100%" }}
+    <Form
+      onSubmit={onSubmit}
+      subscription={{ submitting: true }}
+      mutators={{ ...arrayMutators }}
+      render={({ handleSubmit, form: { mutators }, values }) => (
+        <form onSubmit={handleSubmit}>
+          <Grid
+            container
+            spacing={2}
+            padding={2}
+            sx={{
+              "& .MuiGrid-item": {
+                "& .MuiTextField-root": { width: "100%" },
+              },
+            }}
           >
-            {glassList.map((glass) => (
-              <MenuItem value={glass.id}>{glass.name}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-      <Grid item xs={6}>
-        <FormControl sx={{ width: "100%" }}>
-          <InputLabel id="back-label">Задник</InputLabel>
-          <Select
-            label={"Задник"}
-            labelId={"back-label"}
-            value={back}
-            onChange={(e) => handleSelectChange(e, setBack)}
-            sx={{ width: "100%" }}
-          >
-            {backList.map((back) => (
-              <MenuItem value={back.id}>{back.name}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-    </Grid>
+            <Grid item xs={6}>
+              <TextField name="workName" label="Название работы" required />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField name="width" label="Ширина" type="number" required />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField name="height" label="Длина" type="number" required />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                name="frameMoldingWidth"
+                label="Ширина багета"
+                type="number"
+                required
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                name="frameMoldingPrice"
+                label="Цена багета"
+                type="number"
+                required
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                name="frameMoldingCode"
+                label="Артикул багета"
+                required
+              />
+            </Grid>
+            <PassepartoutSection mutators={mutators}></PassepartoutSection>
+            <Grid item xs={6}>
+              <Select
+                name={"glass"}
+                label={"Стекло"}
+                sx={{ width: "100%" }}
+                required
+              >
+                {select_data.glassList.map((glass, index) => (
+                  <MenuItem key={`glass${index}`} value={glass}>
+                    {glass}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Grid>
+            <Grid item xs={6}>
+              <Select
+                name={"back"}
+                label={"Задник"}
+                sx={{ width: "100%" }}
+                required
+              >
+                {select_data.backList.map((back, index) => (
+                  <MenuItem key={`back${index}`} value={back}>
+                    {back}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Grid>
+            <Grid item xs={12}>
+              <Button type={"submit"}>Добавить заказ</Button>
+            </Grid>
+          </Grid>
+        </form>
+      )}
+    ></Form>
   ) : (
     <>Загрузка</>
   );
