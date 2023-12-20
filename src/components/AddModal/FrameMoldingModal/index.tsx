@@ -1,38 +1,29 @@
-import React, { createContext, useEffect, useRef, useState } from "react";
-import { handleNumberChange } from "../../../utils/handleNumberChange";
-import { handleTextChange } from "../../../utils/handleTextChange";
-import AddPassepartout from "../PassepartoutSection/AddPassepartout";
-import { handleSelectChange } from "../../../utils/handleSelectChange";
-import axios from "axios";
-import { Accessory } from "../../types";
-import NumberInput from "../NumberInput";
+import React from "react";
 import PassepartoutSection from "../PassepartoutSection";
 import { Button, Grid, MenuItem } from "@mui/material";
 import { Select, TextField } from "mui-rff";
 import arrayMutators from "final-form-arrays";
 
-import select_data from "../../../json/select_data.json";
+import selectData from "../../../json/select_data.json";
 import { Form } from "react-final-form";
+import axios from "axios";
 
-export type PassepartoutString = {
-  horizontalWidth: string;
-  verticalWidth: string;
-  price: string;
-  code: string;
+const initialValues = {
+  orderType: "Багет",
+  glass: selectData.glassList[0],
+  back: selectData.backList[0],
 };
 
 const FrameMoldingModal: React.FC = () => {
-  const [isLoaded, setIsLoaded] = useState(true);
-
-  const onSubmit = (values: any) => {
-    console.log(values);
+  const onSubmit = async (values: any) => {
+    const result = await axios.post("http://localhost:3001/orders", values);
   };
 
-  return isLoaded ? (
+  return (
     <Form
       onSubmit={onSubmit}
       subscription={{ submitting: true }}
-      initialValues={{ orderType: "Багет" }}
+      initialValues={initialValues}
       mutators={{ ...arrayMutators }}
       render={({ handleSubmit, form: { mutators }, values }) => (
         <form onSubmit={handleSubmit}>
@@ -57,7 +48,7 @@ const FrameMoldingModal: React.FC = () => {
             </Grid>
             <Grid item xs={6}>
               <TextField
-                name="frameMoldingWidth"
+                name="base"
                 label="Ширина багета"
                 type="number"
                 required
@@ -65,18 +56,14 @@ const FrameMoldingModal: React.FC = () => {
             </Grid>
             <Grid item xs={6}>
               <TextField
-                name="frameMoldingPrice"
+                name="price"
                 label="Цена багета"
                 type="number"
                 required
               />
             </Grid>
             <Grid item xs={6}>
-              <TextField
-                name="frameMoldingCode"
-                label="Артикул багета"
-                required
-              />
+              <TextField name="code" label="Артикул багета" required />
             </Grid>
             <PassepartoutSection mutators={mutators}></PassepartoutSection>
             <Grid item xs={6}>
@@ -86,7 +73,7 @@ const FrameMoldingModal: React.FC = () => {
                 sx={{ width: "100%" }}
                 required
               >
-                {select_data.glassList.map((glass, index) => (
+                {selectData.glassList.map((glass, index) => (
                   <MenuItem key={`glass${index}`} value={glass}>
                     {glass}
                   </MenuItem>
@@ -100,12 +87,18 @@ const FrameMoldingModal: React.FC = () => {
                 sx={{ width: "100%" }}
                 required
               >
-                {select_data.backList.map((back, index) => (
+                {selectData.backList.map((back, index) => (
                   <MenuItem key={`back${index}`} value={back}>
                     {back}
                   </MenuItem>
                 ))}
               </Select>
+            </Grid>
+            <Grid item xs={6}>
+              <TextField name="client" label="ФИО клиента" required />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField name="phone" label="Номер клиента" required />
             </Grid>
             <Grid item xs={12}>
               <Button type={"submit"}>Добавить заказ</Button>
@@ -114,8 +107,6 @@ const FrameMoldingModal: React.FC = () => {
         </form>
       )}
     ></Form>
-  ) : (
-    <>Загрузка</>
   );
 };
 

@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Button, Stack } from "@mui/material";
 import AddModal from "./components/AddModal";
+import OrderTable from "./components/OrderTable";
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -12,11 +13,9 @@ function App() {
   return (
     <div className="App">
       <AddModal {...{ open, setOpen, onSubmit }} />
-      <Stack direction="row">
-        <Stack>
-          <Button onClick={() => setOpen(true)}>Добавить заказ</Button>
-        </Stack>
-        <Stack></Stack>
+      <Stack>
+        <Button onClick={() => setOpen(true)}>Добавить заказ</Button>
+        <OrderTable />
       </Stack>
     </div>
   );

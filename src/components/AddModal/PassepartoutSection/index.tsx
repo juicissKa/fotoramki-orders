@@ -10,7 +10,10 @@ const PassepartoutSection: React.FC<{ mutators: any }> = ({ mutators }) => {
       <FieldArray name="passepartouts">
         {({ fields }) =>
           fields.map((name, index) => (
-            <AddPassepartout {...{ name, index, remove: mutators.remove }} />
+            <AddPassepartout
+              key={`passepartout${index}`}
+              {...{ name, index, remove: mutators.remove }}
+            />
           ))
         }
       </FieldArray>
