@@ -7,6 +7,7 @@ import arrayMutators from "final-form-arrays";
 import selectData from "../../../json/select_data.json";
 import { Form } from "react-final-form";
 import axios from "axios";
+import PhoneInput from "../../../render/PhoneInput";
 
 const initialValues = {
   orderType: "Багет",
@@ -98,7 +99,7 @@ const FrameMoldingModal: React.FC = () => {
               <TextField name="client" label="ФИО клиента" required />
             </Grid>
             <Grid item xs={6}>
-              <TextField name="phone" label="Номер клиента" required />
+              <PhoneInput name="phone" required />
             </Grid>
             <Grid item xs={12}>
               <Button type={"submit"}>Добавить заказ</Button>
