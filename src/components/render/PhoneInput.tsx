@@ -1,20 +1,15 @@
 import { MuiTelInput, matchIsValidTel } from "mui-tel-input";
-import React from "react";
+import React, { useState } from "react";
 import { Field } from "react-final-form";
 
 const PhoneInput: React.FC<any> = (input) => {
-  const handlePhoneChange = (phone: string) => {
-    matchIsValidTel(phone);
-  };
-
   return (
-    <Field {...input}>
+    <Field {...input} validate={(e) => matchIsValidTel(e, "RU")}>
       {(props) => (
         <MuiTelInput
           {...props.input}
-          onlyCountries={["RU"]}
+          disableDropdown={true}
           defaultCountry="RU"
-          onChange={handlePhoneChange}
           required
         />
       )}
