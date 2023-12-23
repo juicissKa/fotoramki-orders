@@ -7,26 +7,31 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import SearchInput from "./SearchInput";
 import axios from "axios";
 import Order, { OrderType } from "./Order";
 import OrderSkeleton from "./Order/OrderSkeleton";
+import { Status } from "../types";
 
 const OrderTable = () => {
   const [orders, setOrders] = useState<OrderType[]>([]);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [loadingStatus, setLoadingStatus] = useState<Status>(Status.Loading);
 
   useEffect(() => {
     axios
       .get("http://localhost:3001/orders")
       .then((res) => {
         setOrders(res.data);
-        setIsLoading(false);
+        setLoadingStatus(Status.Fulfilled);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setLoadingStatus(Status.Rejected);
+      });
   }, []);
 
   return (
@@ -43,9 +48,13 @@ const OrderTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {isLoading
-            ? [...Array(10)].map(() => <OrderSkeleton />)
-            : orders.map((order) => <Order key={order._id} {...order} />)}
+          {loadingStatus === Status.Rejected ? (
+            <Typography>Ошибка при загрузке данных</Typography>
+          ) : loadingStatus === Status.Loading ? (
+            [...Array(10)].map(() => <OrderSkeleton />)
+          ) : (
+            orders.map((order) => <Order key={order._id} {...order} />)
+          )}
         </TableBody>
       </Table>
     </TableContainer>

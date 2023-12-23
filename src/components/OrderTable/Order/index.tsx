@@ -1,5 +1,12 @@
-import { TableCell, TableRow } from "@mui/material";
+import { Chip, TableCell, TableRow } from "@mui/material";
 import React from "react";
+import { ChipColor } from "../../types";
+import {
+  AccessTimeFilled,
+  DoneAll,
+  Engineering,
+  Error,
+} from "@mui/icons-material";
 
 export type OrderType = {
   status: string;
@@ -11,18 +18,41 @@ export type OrderType = {
   _id: string;
 };
 
-const STATUS_COLORS = new Map<string, string>();
-STATUS_COLORS.set("На производстве", "#bad1f7");
-STATUS_COLORS.set("Выдан", "#77eb75");
-STATUS_COLORS.set("Отменён", "#ed3b3b");
+const STATUS_COLORS = new Map<
+  string,
+  {
+    color: ChipColor;
+    icon: any;
+  }
+>();
+STATUS_COLORS.set("На производстве", {
+  color: ChipColor.Primary,
+  icon: <Engineering htmlColor="white" />,
+});
+STATUS_COLORS.set("Выдан", {
+  color: ChipColor.Success,
+  icon: <DoneAll htmlColor="white" />,
+});
+STATUS_COLORS.set("Отменён", {
+  color: ChipColor.Error,
+  icon: <Error htmlColor="white" />,
+});
+STATUS_COLORS.set("Ожидает выдачи", {
+  color: ChipColor.Warning,
+  icon: <AccessTimeFilled htmlColor="white" />,
+});
 
 const Order: React.FC<OrderType> = (order) => {
   const { status, orderType, workName, client, phone, fullPrice } = order;
 
   return (
     <TableRow>
-      <TableCell sx={{ backgroundColor: STATUS_COLORS.get(status) }}>
-        {status}
+      <TableCell>
+        <Chip
+          icon={STATUS_COLORS.get(status)?.icon}
+          color={STATUS_COLORS.get(status)?.color}
+          label={status}
+        />
       </TableCell>
       <TableCell>{orderType}</TableCell>
       <TableCell>{workName}</TableCell>

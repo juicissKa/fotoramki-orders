@@ -1,10 +1,6 @@
 import {
-  Button,
   Dialog,
   FormControl,
-  FormGroup,
-  FormLabel,
-  Grid,
   InputLabel,
   MenuItem,
   Select,
@@ -16,11 +12,6 @@ import FrameMoldingModal from "./FrameMoldingModal";
 import BackframeModal from "./BackframeModal";
 import BoxModal from "./BoxModal";
 import PassepartoutModal from "./PassepartoutModal";
-import { handleTextChange } from "../../utils/handleTextChange";
-import { Field, Form } from "react-final-form";
-import { TextField } from "mui-rff";
-
-import arrayMutators from "final-form-arrays";
 
 type Product = {
   name: string;
