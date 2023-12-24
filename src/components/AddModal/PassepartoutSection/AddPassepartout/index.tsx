@@ -2,6 +2,8 @@ import { Box, Grid, IconButton, Typography } from "@mui/material";
 import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { TextField } from "mui-rff";
+import NumberInput from "../../../render/NumberInput";
+import TextInput from "../../../render/TextInput";
 
 type AddPassepartoutType = {
   index: number;
@@ -32,24 +34,31 @@ const AddPassepartout: React.FC<AddPassepartoutType> = ({
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={6}>
-          <TextField
+          <NumberInput
             name={`${name}.width`}
             label="Расстояние по горизонтали"
+            suffix="мм"
             required
           />
         </Grid>
         <Grid item xs={6}>
-          <TextField
+          <NumberInput
             name={`${name}.height`}
             label="Расстояние по вертикали"
+            suffix="мм"
             required
           />
         </Grid>
         <Grid item xs={6}>
-          <TextField name={`${name}.price`} label="Цена паспарту" required />
+          <NumberInput
+            name={`${name}.price`}
+            label="Цена паспарту"
+            suffix="₽"
+            required
+          />
         </Grid>
         <Grid item xs={6}>
-          <TextField name={`${name}.code`} label="Артикул паспарту" required />
+          <TextInput name={`${name}.code`} label="Артикул паспарту" required />
         </Grid>
       </Grid>
     </Box>

@@ -8,6 +8,8 @@ import selectData from "../../../json/select_data.json";
 import { Form } from "react-final-form";
 import axios from "axios";
 import PhoneInput from "../../render/PhoneInput";
+import NumberInput from "../../render/NumberInput";
+import TextInput from "../../render/TextInput";
 
 const initialValues = {
   orderType: "Багет",
@@ -16,8 +18,9 @@ const initialValues = {
 };
 
 const FrameMoldingModal: React.FC = () => {
-  const onSubmit = async (values: any) => {
-    const result = await axios.post("http://localhost:3001/orders", values);
+  const onSubmit = (values: any) => {
+    // const result = await axios.post("http://localhost:3001/orders", values);
+    console.log(values);
   };
 
   return (
@@ -39,32 +42,32 @@ const FrameMoldingModal: React.FC = () => {
             }}
           >
             <Grid item xs={6}>
-              <TextField name="workName" label="Название работы" required />
+              <TextInput name="workName" label="Название работы" required />
             </Grid>
             <Grid item xs={6}>
-              <TextField name="width" label="Ширина" type="number" required />
+              <NumberInput name="width" label="Ширина" suffix="мм" required />
             </Grid>
             <Grid item xs={6}>
-              <TextField name="height" label="Длина" type="number" required />
+              <NumberInput name="height" label="Длина" suffix="мм" required />
             </Grid>
             <Grid item xs={6}>
-              <TextField
+              <NumberInput
                 name="base"
                 label="Ширина багета"
-                type="number"
+                suffix="мм"
                 required
               />
             </Grid>
             <Grid item xs={6}>
-              <TextField
+              <NumberInput
                 name="price"
                 label="Цена багета"
-                type="number"
+                suffix="₽"
                 required
               />
             </Grid>
             <Grid item xs={6}>
-              <TextField name="code" label="Артикул багета" required />
+              <TextInput name="code" label="Артикул багета" required />
             </Grid>
             <PassepartoutSection mutators={mutators}></PassepartoutSection>
             <Grid item xs={6}>
@@ -96,10 +99,14 @@ const FrameMoldingModal: React.FC = () => {
               </Select>
             </Grid>
             <Grid item xs={6}>
-              <TextField name="client" label="ФИО клиента" required />
+              <TextInput name="client" label="Имя клиента" required />
             </Grid>
             <Grid item xs={6}>
-              <PhoneInput name="phone" required />
+              <PhoneInput
+                name="phone"
+                label="Номер телефона клиента"
+                required
+              />
             </Grid>
             <Grid item xs={12}>
               <Button type={"submit"}>Добавить заказ</Button>

@@ -19,8 +19,8 @@ type Product = {
 };
 
 const products: Product[] = [
-  { name: "Багет", value: "frame_molding" },
-  { name: "Короб", value: "box" },
+  { name: "Оформление в багет", value: "frame_molding" },
+  { name: "Оформление в короб", value: "box" },
   { name: "Подрамник", value: "backframe" },
   { name: "Паспарту", value: "passepartout" },
 ];

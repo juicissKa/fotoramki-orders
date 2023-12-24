@@ -1,19 +1,20 @@
 import { FormControl, Input, InputLabel, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { Field } from "react-final-form";
-import { NumericFormatProps, PatternFormat } from "react-number-format";
+import { NumericFormat, NumericFormatProps } from "react-number-format";
 
 interface CustomProps {
   onChange: (event: { target: { name: string; value: string } }) => void;
   name: string;
+  suffix: string;
 }
 
 const PatternFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
   (props, ref) => {
-    const { onChange, ...other } = props;
+    const { onChange, suffix, ...other } = props;
 
     return (
-      <PatternFormat
+      <NumericFormat
         {...other}
         getInputRef={ref}
         onValueChange={(values) => {
@@ -24,30 +25,33 @@ const PatternFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
             },
           });
         }}
-        format={"+7 ### ### ## ##"}
-        allowEmptyFormatting
-        pattern="[+]7 [0-9]{3} [0-9]{3} [0-9]{2} [0-9]{2}"
+        suffix={suffix ? " " + suffix : undefined}
+        thousandSeparator=" "
+        allowNegative={false}
       />
     );
   }
 );
 
-const PhoneInput: React.FC<any> = (props) => {
+const NumberInput: React.FC<any> = (props) => {
   return (
     <Field {...props}>
-      {({ input, meta, ...otherProps }) => (
+      {({ input, meta, suffix, ...otherProps }) => (
         <TextField
           {...input}
           InputLabelProps={{ shrink: true }}
           InputProps={{
             inputComponent: PatternFormatCustom as any,
           }}
+          inputProps={{
+            suffix: suffix,
+          }}
           {...otherProps}
-          placeholder="+7 XXX XXX XX XX"
+          placeholder={suffix}
         />
       )}
     </Field>
   );
 };
 
-export default PhoneInput;
+export default NumberInput;
