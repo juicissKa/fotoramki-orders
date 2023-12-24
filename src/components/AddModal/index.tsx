@@ -1,10 +1,12 @@
 import {
+  Alert,
   Dialog,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
+  Snackbar,
   Stack,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -12,6 +14,8 @@ import FrameMoldingModal from "./FrameMoldingModal";
 import BackframeModal from "./BackframeModal";
 import BoxModal from "./BoxModal";
 import PassepartoutModal from "./PassepartoutModal";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { closeModal } from "../../redux/slices/formSlice/slice";
 
 type Product = {
   name: string;
@@ -32,22 +36,19 @@ const PRODUCT_VIEWS: Record<string, React.FC> = {
   passepartout: PassepartoutModal,
 };
 
-type AddModalType = {
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  onSubmit: (values: any) => void;
-};
-
-const AddModal: React.FC<AddModalType> = ({ open, setOpen, onSubmit }) => {
+const AddModal: React.FC = () => {
   const [currentProduct, setCurrentProduct] = useState(products[0].value);
   const CurrentForm = PRODUCT_VIEWS[currentProduct];
+
+  const dispatch = useAppDispatch();
+  const open = useAppSelector((state) => state.form.modalOpen);
 
   const handleSelectChange = (e: SelectChangeEvent<unknown>) => {
     setCurrentProduct(e.target.value as string);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    dispatch(closeModal());
   };
 
   return (

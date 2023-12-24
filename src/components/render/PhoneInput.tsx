@@ -20,13 +20,14 @@ const PatternFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
           onChange({
             target: {
               name: props.name,
-              value: values.value,
+              value: values.formattedValue,
             },
           });
         }}
-        format={"+7 ### ### ## ##"}
+        format={"+7 (###) ### ## ##"}
         allowEmptyFormatting
-        pattern="[+]7 [0-9]{3} [0-9]{3} [0-9]{2} [0-9]{2}"
+        mask={"X"}
+        pattern="[+]7 \([0-9]{3}\) [0-9]{3} [0-9]{2} [0-9]{2}"
       />
     );
   }
@@ -43,7 +44,6 @@ const PhoneInput: React.FC<any> = (props) => {
             inputComponent: PatternFormatCustom as any,
           }}
           {...otherProps}
-          placeholder="+7 XXX XXX XX XX"
         />
       )}
     </Field>

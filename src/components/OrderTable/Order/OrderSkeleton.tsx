@@ -4,11 +4,24 @@ import React from "react";
 const OrderSkeleton: React.FC = () => {
   return (
     <TableRow>
-      {[...Array(6)].map(() => (
-        <TableCell>
-          <Skeleton />
-        </TableCell>
-      ))}
+      <TableCell>
+        <Skeleton />
+      </TableCell>
+      <TableCell>
+        <Skeleton />
+      </TableCell>
+      <TableCell>
+        <Skeleton />
+      </TableCell>
+      <TableCell>
+        <Skeleton />
+      </TableCell>
+      <TableCell>
+        <Skeleton />
+      </TableCell>
+      <TableCell>
+        <Skeleton />
+      </TableCell>
     </TableRow>
   );
 };

@@ -1,6 +1,5 @@
 import {
-  Stack,
-  Tab,
+  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -9,30 +8,13 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import SearchInput from "./SearchInput";
-import axios from "axios";
 import Order, { OrderType } from "./Order";
 import OrderSkeleton from "./Order/OrderSkeleton";
-import { Status } from "../types";
+import { useGetOrdersQuery } from "../../redux/slices/orderApi";
+import { Delete } from "@mui/icons-material";
 
 const OrderTable = () => {
-  const [orders, setOrders] = useState<OrderType[]>([]);
-
-  const [loadingStatus, setLoadingStatus] = useState<Status>(Status.Loading);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:3001/orders")
-      .then((res) => {
-        setOrders(res.data);
-        setLoadingStatus(Status.Fulfilled);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoadingStatus(Status.Rejected);
-      });
-  }, []);
+  const { data, error, isLoading } = useGetOrdersQuery("");
 
   return (
     <TableContainer>
@@ -45,15 +27,18 @@ const OrderTable = () => {
             <TableCell>ФИО клиента</TableCell>
             <TableCell>Номер телефона</TableCell>
             <TableCell>Общая стоимость</TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {loadingStatus === Status.Rejected ? (
+          {error ? (
             <Typography>Ошибка при загрузке данных</Typography>
-          ) : loadingStatus === Status.Loading ? (
-            [...Array(10)].map(() => <OrderSkeleton />)
+          ) : isLoading ? (
+            [...Array(10)].map((order, index) => (
+              <OrderSkeleton key={`orderSkeleton${index}`} />
+            ))
           ) : (
-            orders.map((order) => <Order key={order._id} {...order} />)
+            data && data.map((order) => <Order key={order._id} {...order} />)
           )}
         </TableBody>
       </Table>

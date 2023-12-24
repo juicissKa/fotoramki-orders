@@ -10,17 +10,32 @@ import axios from "axios";
 import PhoneInput from "../../render/PhoneInput";
 import NumberInput from "../../render/NumberInput";
 import TextInput from "../../render/TextInput";
+import { useAppDispatch } from "../../../redux/store";
+import { closeModal, openSnack } from "../../../redux/slices/formSlice/slice";
+import { useCreateOrderMutation } from "../../../redux/slices/orderApi";
 
 const initialValues = {
-  orderType: "Багет",
+  orderType: "Оформление в багет",
   glass: selectData.glassList[0],
   back: selectData.backList[0],
 };
 
 const FrameMoldingModal: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const [createOrder, { isLoading }] = useCreateOrderMutation();
   const onSubmit = (values: any) => {
-    // const result = await axios.post("http://localhost:3001/orders", values);
-    console.log(values);
+    createOrder(values)
+      .then((res) => {
+        dispatch(
+          openSnack({ text: "Заказ успешно добавлен!", type: "success" })
+        );
+        dispatch(closeModal());
+      })
+      .catch((err) => {
+        dispatch(
+          openSnack({ text: "Ошибка! Заказ не был добавлен!", type: "error" })
+        );
+      });
   };
 
   return (
@@ -42,7 +57,12 @@ const FrameMoldingModal: React.FC = () => {
             }}
           >
             <Grid item xs={6}>
-              <TextInput name="workName" label="Название работы" required />
+              <TextInput
+                name="workName"
+                label="Название работы"
+                placeholder='Картина "Домик в лесу"'
+                required
+              />
             </Grid>
             <Grid item xs={6}>
               <NumberInput name="width" label="Ширина" suffix="мм" required />
@@ -67,7 +87,12 @@ const FrameMoldingModal: React.FC = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              <TextInput name="code" label="Артикул багета" required />
+              <TextInput
+                name="code"
+                label="Артикул багета"
+                placeholder="17.4038.11.IQ"
+                required
+              />
             </Grid>
             <PassepartoutSection mutators={mutators}></PassepartoutSection>
             <Grid item xs={6}>
@@ -99,7 +124,12 @@ const FrameMoldingModal: React.FC = () => {
               </Select>
             </Grid>
             <Grid item xs={6}>
-              <TextInput name="client" label="Имя клиента" required />
+              <TextInput
+                name="client"
+                label="Имя клиента"
+                placeholder="Иванов Иван Иванович"
+                required
+              />
             </Grid>
             <Grid item xs={6}>
               <PhoneInput
@@ -109,7 +139,9 @@ const FrameMoldingModal: React.FC = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <Button type={"submit"}>Добавить заказ</Button>
+              <Button type={"submit"} disabled={isLoading}>
+                Добавить заказ
+              </Button>
             </Grid>
           </Grid>
         </form>

@@ -1,20 +1,43 @@
 import React from "react";
 import { useState } from "react";
-import { Button, Stack } from "@mui/material";
+import { Alert, Button, Snackbar, Stack } from "@mui/material";
 import AddModal from "./components/AddModal";
 import OrderTable from "./components/OrderTable";
+import { useAppDispatch, useAppSelector } from "./redux/store";
+import { closeSnack, openModal } from "./redux/slices/formSlice/slice";
+import { selectSnack } from "./redux/slices/formSlice/selectors";
 
 function App() {
-  const [open, setOpen] = useState(false);
-  const onSubmit = (values: any) => {
-    console.log(values);
+  const dispatch = useAppDispatch();
+  const { snack } = useAppSelector((state) => state.form);
+
+  const handleSnackClose = () => {
+    dispatch(closeSnack());
+  };
+
+  const handleOpenModal = () => {
+    dispatch(openModal());
   };
 
   return (
     <div className="App">
-      <AddModal {...{ open, setOpen, onSubmit }} />
+      <AddModal />
+      <Snackbar
+        open={snack.open}
+        autoHideDuration={6000}
+        onClose={handleSnackClose}
+      >
+        <Alert
+          onClose={handleSnackClose}
+          severity={snack.type}
+          sx={{ width: "100%" }}
+          variant="filled"
+        >
+          {snack.text}
+        </Alert>
+      </Snackbar>
       <Stack>
-        <Button onClick={() => setOpen(true)}>Добавить заказ</Button>
+        <Button onClick={handleOpenModal}>Добавить заказ</Button>
         <OrderTable />
       </Stack>
     </div>

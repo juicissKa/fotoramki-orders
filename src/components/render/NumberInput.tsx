@@ -47,7 +47,7 @@ const NumberInput: React.FC<any> = (props) => {
             suffix: suffix,
           }}
           {...otherProps}
-          placeholder={suffix}
+          placeholder={"0 " + suffix}
         />
       )}
     </Field>
