@@ -14,8 +14,8 @@ import FrameMoldingModal from "./FrameMoldingModal";
 import BackframeModal from "./BackframeModal";
 import BoxModal from "./BoxModal";
 import PassepartoutModal from "./PassepartoutModal";
-import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { closeModal } from "../../redux/slices/formSlice/slice";
+import { useAppDispatch, useAppSelector } from "../../../../redux/store";
+import { closeModal } from "../../../../redux/slices/formSlice/slice";
 
 type Product = {
   name: string;

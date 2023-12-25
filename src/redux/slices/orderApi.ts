@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import type { OrderType } from "../../components/OrderTable/Order";
+import type { OrderType } from "../../components/pages/OrderTablePage/OrderTable/Order";
 
 export const orderApi = createApi({
   reducerPath: "orderApi",
@@ -11,6 +11,12 @@ export const orderApi = createApi({
       query: () => `orders`,
       providesTags: ["Orders"],
     }),
+
+    getOrderById: builder.query<OrderType, string>({
+      query: (id) => `orders/${id}`,
+      providesTags: ["Orders"],
+    }),
+
     createOrder: builder.mutation({
       query: (values) => ({
         url: "orders",
@@ -45,4 +51,5 @@ export const {
   useCreateOrderMutation,
   useDeleteOrderMutation,
   useUpdateOrderMutation,
+  useGetOrderByIdQuery,
 } = orderApi;

@@ -2,8 +2,8 @@ import { Box, Grid, IconButton, Typography } from "@mui/material";
 import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { TextField } from "mui-rff";
-import NumberInput from "../../../render/NumberInput";
-import TextInput from "../../../render/TextInput";
+import NumberInput from "../../../../../render/NumberInput";
+import TextInput from "../../../../../render/TextInput";
 
 type AddPassepartoutType = {
   index: number;

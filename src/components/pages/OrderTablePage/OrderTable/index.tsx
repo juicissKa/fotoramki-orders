@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import Order, { OrderType } from "./Order";
 import OrderSkeleton from "./Order/OrderSkeleton";
-import { useGetOrdersQuery } from "../../redux/slices/orderApi";
+import { useGetOrdersQuery } from "../../../../redux/slices/orderApi";
 import { Delete } from "@mui/icons-material";
 
 const OrderTable = () => {
@@ -27,7 +27,6 @@ const OrderTable = () => {
             <TableCell>ФИО клиента</TableCell>
             <TableCell>Номер телефона</TableCell>
             <TableCell>Общая стоимость</TableCell>
-            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
