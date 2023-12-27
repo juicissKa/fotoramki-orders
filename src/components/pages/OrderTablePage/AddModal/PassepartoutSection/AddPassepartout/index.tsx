@@ -22,7 +22,7 @@ const AddPassepartout: React.FC<AddPassepartoutType> = ({
         Паспарту {index + 1}
         <IconButton
           onClick={() => {
-            remove("passepartouts", index);
+            remove("orderProps.passepartouts", index);
           }}
         >
           <DeleteIcon

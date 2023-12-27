@@ -2,19 +2,19 @@ import { TableCell, TableRow } from "@mui/material";
 import React from "react";
 import Status from "./Status";
 import { useNavigate } from "react-router-dom";
-
-export type OrderType = {
-  status: string;
-  orderType: string;
-  workName: string;
-  client: string;
-  phone: string;
-  fullPrice: number;
-  _id: string;
-};
+import { OrderType } from "../../../../types";
 
 const Order: React.FC<OrderType> = (order) => {
-  const { _id, status, orderType, workName, client, phone, fullPrice } = order;
+  const {
+    _id,
+    status,
+    orderType,
+    workName,
+    client,
+    phone,
+    fullPrice,
+    createdAt,
+  } = order;
 
   const navigate = useNavigate();
 
@@ -32,6 +32,7 @@ const Order: React.FC<OrderType> = (order) => {
       <TableCell>{client}</TableCell>
       <TableCell>{phone}</TableCell>
       <TableCell>{fullPrice} ₽</TableCell>
+      <TableCell>{new Date(createdAt).toLocaleDateString()}</TableCell>
     </TableRow>
   );
 };

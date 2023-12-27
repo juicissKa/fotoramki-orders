@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import type { OrderType } from "../../components/pages/OrderTablePage/OrderTable/Order";
+import type { OrderType } from "../../components/types";
 
 export const orderApi = createApi({
   reducerPath: "orderApi",

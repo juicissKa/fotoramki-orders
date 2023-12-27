@@ -18,8 +18,10 @@ import { useCreateOrderMutation } from "../../../../../redux/slices/orderApi";
 
 const initialValues = {
   orderType: "Оформление в багет",
-  glass: selectData.glassList[0],
-  back: selectData.backList[0],
+  orderProps: {
+    glass: selectData.glassList[0],
+    back: selectData.backList[0],
+  },
 };
 
 const FrameMoldingModal: React.FC = () => {
@@ -67,14 +69,24 @@ const FrameMoldingModal: React.FC = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              <NumberInput name="width" label="Ширина" suffix="мм" required />
-            </Grid>
-            <Grid item xs={6}>
-              <NumberInput name="height" label="Длина" suffix="мм" required />
+              <NumberInput
+                name="orderProps.width"
+                label="Ширина по горизонтали"
+                suffix="мм"
+                required
+              />
             </Grid>
             <Grid item xs={6}>
               <NumberInput
-                name="base"
+                name="orderProps.height"
+                label="Ширина по вертикали"
+                suffix="мм"
+                required
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <NumberInput
+                name="orderProps.base"
                 label="Ширина багета"
                 suffix="мм"
                 required
@@ -82,7 +94,7 @@ const FrameMoldingModal: React.FC = () => {
             </Grid>
             <Grid item xs={6}>
               <NumberInput
-                name="price"
+                name="orderProps.price"
                 label="Цена багета"
                 suffix="₽"
                 required
@@ -90,7 +102,7 @@ const FrameMoldingModal: React.FC = () => {
             </Grid>
             <Grid item xs={6}>
               <TextInput
-                name="code"
+                name="orderProps.code"
                 label="Артикул багета"
                 placeholder="17.4038.11.IQ"
                 required
@@ -99,7 +111,7 @@ const FrameMoldingModal: React.FC = () => {
             <PassepartoutSection mutators={mutators}></PassepartoutSection>
             <Grid item xs={6}>
               <Select
-                name={"glass"}
+                name={"orderProps.glass"}
                 label={"Стекло"}
                 sx={{ width: "100%" }}
                 required
@@ -113,7 +125,7 @@ const FrameMoldingModal: React.FC = () => {
             </Grid>
             <Grid item xs={6}>
               <Select
-                name={"back"}
+                name={"orderProps.back"}
                 label={"Задник"}
                 sx={{ width: "100%" }}
                 required

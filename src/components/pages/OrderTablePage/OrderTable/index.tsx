@@ -1,5 +1,4 @@
 import {
-  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -8,10 +7,9 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import Order, { OrderType } from "./Order";
+import Order from "./Order";
 import OrderSkeleton from "./Order/OrderSkeleton";
 import { useGetOrdersQuery } from "../../../../redux/slices/orderApi";
-import { Delete } from "@mui/icons-material";
 
 const OrderTable = () => {
   const { data, error, isLoading } = useGetOrdersQuery("");
@@ -27,6 +25,7 @@ const OrderTable = () => {
             <TableCell>ФИО клиента</TableCell>
             <TableCell>Номер телефона</TableCell>
             <TableCell>Общая стоимость</TableCell>
+            <TableCell>Дата поступления заказа</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

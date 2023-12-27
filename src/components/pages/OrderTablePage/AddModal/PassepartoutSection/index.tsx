@@ -8,7 +8,7 @@ const PassepartoutSection: React.FC<{ mutators: any }> = ({ mutators }) => {
   return (
     <Grid item xs={12}>
       <Stack spacing={2}>
-        <FieldArray name="passepartouts">
+        <FieldArray name="orderProps.passepartouts">
           {({ fields }) =>
             fields.map((name, index) => (
               <AddPassepartout
@@ -20,7 +20,7 @@ const PassepartoutSection: React.FC<{ mutators: any }> = ({ mutators }) => {
         </FieldArray>
         <Button
           sx={{ width: "100%" }}
-          onClick={() => mutators.push("passepartouts", undefined)}
+          onClick={() => mutators.push("orderProps.passepartouts", undefined)}
         >
           Добавить паспарту
         </Button>
