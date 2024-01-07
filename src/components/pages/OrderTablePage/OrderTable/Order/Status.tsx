@@ -1,4 +1,4 @@
-import { Chip } from "@mui/material";
+import { Chip, ChipTypeMap, SxProps } from "@mui/material";
 import React from "react";
 import { ChipColor } from "../../../../types";
 import {
