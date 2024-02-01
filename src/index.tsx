@@ -1,16 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
+import App from "./app/App";
 import { Provider } from "react-redux";
-import { store } from "./redux/store";
+import { store } from "./app/store/redux/store";
 
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import OrderTablePage from "./components/pages/OrderTablePage";
-import OrderPage from "./components/pages/OrderPage";
+import { Orders } from "./pages/Orders/ui/Orders";
+import { Order } from "./pages/Orders/Order";
 
 const router = createBrowserRouter([
   {
@@ -23,11 +23,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <OrderTablePage />,
+        element: <Orders />,
       },
       {
         path: "/orders/:id",
-        element: <OrderPage />,
+        element: <Order />,
       },
     ],
   },
