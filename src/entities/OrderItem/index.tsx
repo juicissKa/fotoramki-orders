@@ -2,7 +2,7 @@ import { TableCell, TableRow } from "@mui/material";
 import React from "react";
 import Status from "./Status";
 import { useNavigate } from "react-router-dom";
-import { OrderType } from "@shared/types";
+import { OrderType } from "shared/types/types";
 
 export const OrderItem: React.FC<OrderType> = (order) => {
   const {
